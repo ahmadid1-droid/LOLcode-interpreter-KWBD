@@ -1,11 +1,12 @@
-# CMSC 124 - Milestone 1
+# CMSC 124 - LOLCODE INTERPRETER
 
 Kids with Big Dreams | S2L
 
 Reads a LOLCODE file and identifies keywords, identifiers, and literals.
-Requires Python 3. No extra libraries needed.
 
-Run from the project folder:
+MILESTONE 1 cookeddog
+
+Run from the source folder:
 
 ```bash
 python3 main/main.py
