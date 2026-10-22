@@ -133,10 +133,10 @@ def main():
 
 
     # print results
-    print("\nLine  Classification        Lexeme")
+    print(f"\n{'Line':<6}{'Classification':<22}{'Lexeme'}")
     print("-" * 65)
     for word, tokenType, line in tokens:
-        print(f"{line}{tokenType}{word}")
+        print(f"{line:<6}{tokenType:<22}{word}")
     for line, message in errors:
         print("Error on line", str(line) + ":", message)
     print("\nTokens:", len(tokens), "| Lexical errors:", len(errors))
