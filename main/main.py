@@ -1,5 +1,7 @@
 # CMSC 124 milestone 1
 
+import re
+
 KEYWORDS = [
     "HAI", "KTHXBYE", "WAZZUP", "BUHBYE", "BTW", "OBTW", "TLDR",
     "I HAS A", "ITZ", "R", "AN", "SUM OF", "DIFF OF", "PRODUKT OF",
@@ -13,40 +15,25 @@ KEYWORDS = [
 ]
 # check longer keywords first
 KEYWORDS = sorted(KEYWORDS, key=len, reverse=True)
-LETTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-DIGITS = "0123456789"
-
-def isDigits(text):
-    if text == "":
-        return False
-    for char in text:
-        if char not in DIGITS:
-            return False
-    return True
 
 
 def classify(word):
-    if word in ["WIN", "FAIL"]:
+    # fullmatch checks the whole word, so 12abc will not match a number
+    if re.fullmatch(r"WIN|FAIL", word):
         return "TROOF Literal"
-    if word in ["NOOB", "NUMBR", "NUMBAR", "YARN", "TROOF"]:
+    if re.fullmatch(r"NOOB|NUMBR|NUMBAR|YARN|TROOF", word):
         return "TYPE Literal"
 
-    # check number, removing the negative sign first
-    number=word
-    if number.startswith("-"):
-        number = number[1:]
-    if isDigits(number):
+    # optional minus sign followed by digits
+    if re.fullmatch(r"-?[0-9]+", word):
         return "NUMBR Literal"
-    parts =number.split(".")
-    if len(parts)==2:
-        if (parts[0] == "" or isDigits(parts[0])) and isDigits(parts[1]):
-            return "NUMBAR Literal"
 
-    # identifier starts with a letter
-    if word != "" and word[0] in LETTERS:
-        for char in word:
-            if char not in LETTERS + DIGITS + "_":
-                return "Invalid"
+    # decimal point needs at least one digit after it
+    if re.fullmatch(r"-?[0-9]*\.[0-9]+", word):
+        return "NUMBAR Literal"
+
+    # starts with a letter, then letters, digits, or underscores
+    if re.fullmatch(r"[a-zA-Z][a-zA-Z0-9_]*", word):
         return "Identifier"
     return "Invalid"
 
